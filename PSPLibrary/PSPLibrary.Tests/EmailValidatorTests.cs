@@ -1,10 +1,18 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PSPLibrary.Tests.Interfaces;
 
 namespace PSPLibrary.Tests
 {
     [TestClass]
     class EmailValidatorTests
     {
+		private IEmailValidator _emailValidator;
+
+        public EmailValidatorTests(IEmailValidator emailValidator)
+        {
+            _emailValidator = emailValidator;
+        }
+
         [TestMethod]
 		public void ValidateEmail_ValidEmail_ReturnsTrue()
 		{
@@ -12,7 +20,7 @@ namespace PSPLibrary.Tests
 			string email = "example@mail.com";
 
 			//Act
-			var result = PasswordValidator.ValidateEmail(correctEmail);
+			var result = _emailValidator.CheckEmail(email);
 
 			//Assert
 			Assert.AreEqual(true, result);
@@ -25,7 +33,7 @@ namespace PSPLibrary.Tests
 			string email = "examplemail.com";
 
 			//Act
-			var result = PasswordValidator.ValidateEmail(email);
+			var result = _emailValidator.CheckEmail(email);
 
 			//Assert
 			Assert.AreEqual(false, result);
@@ -38,7 +46,7 @@ namespace PSPLibrary.Tests
 			string email = "exampl@e@mail.com";
 
 			//Act
-			var result = PasswordValidator.ValidateEmail(email);
+			var result = _emailValidator.CheckEmail(email);
 
 			//Assert
 			Assert.AreEqual(false, result);
@@ -51,7 +59,7 @@ namespace PSPLibrary.Tests
 			string email = "example@mail";
 
 			//Act
-			var result = PasswordValidator.ValidateEmail(email);
+			var result = _emailValidator.CheckEmail(email);
 
 			//Assert
 			Assert.AreEqual(false, result);
@@ -64,7 +72,7 @@ namespace PSPLibrary.Tests
 			string email = "example@.ru";
 
 			//Act
-			var result = PasswordValidator.ValidateEmail(email);
+			var result = _emailValidator.CheckEmail(email);
 
 			//Assert
 			Assert.AreEqual(false, result);

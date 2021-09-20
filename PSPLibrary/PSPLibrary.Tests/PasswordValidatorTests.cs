@@ -1,18 +1,26 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PSPLibrary.Tests.Interfaces;
 
 namespace PSPLibrary.Tests
 {
 	[TestClass]
-	class PasswordCheckerTests
+	class PasswordValidatorTests
 	{
-		[TestMethod]
+		private IPasswordValidator _passwordValidator;
+
+        public PasswordValidatorTests(IPasswordValidator passwordValidator)
+        {
+            _passwordValidator = passwordValidator;
+        }
+
+        [TestMethod]
 		public void CheckPassword_ValidPassword_ReturnsTrue()
 		{
 			//Arrange
 			string password = "ValidPassword123!";
 
 			//Act
-			var result = PasswordChecker.CheckPassword(password);
+			var result = _passwordValidator.CheckPassword(password);
 
 			//Assert
 			Assert.AreEqual(true, result);
@@ -25,7 +33,7 @@ namespace PSPLibrary.Tests
 			string password = "Val1";
 
 			//Act
-			var result = PasswordChecker.CheckPassword(password);
+			var result = _passwordValidator.CheckPassword(password);
 
 			//Assert
 			Assert.AreEqual(false, result);
@@ -38,7 +46,7 @@ namespace PSPLibrary.Tests
 			string password = "invalidpassword1";
 
 			//Act
-			var result = PasswordChecker.CheckPassword(password);
+			var result = _passwordValidator.CheckPassword(password);
 
 			//Assert
 			Assert.AreEqual(false, result);
@@ -51,7 +59,7 @@ namespace PSPLibrary.Tests
 			string password = "InvalidPassword";
 
 			//Act
-			var result = PasswordChecker.CheckPassword(password);
+			var result = _passwordValidator.CheckPassword(password);
 
 			//Assert
 			Assert.AreEqual(false, result);

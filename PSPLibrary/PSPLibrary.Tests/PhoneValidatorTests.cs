@@ -1,18 +1,26 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PSPLibrary.Tests.Interfaces;
 
 namespace PSPLibrary.Tests
 {
 	[TestClass]
     class PhoneValidatorTests
     {
-		[TestMethod]
+		private IPhoneValidator _phoneValidator;
+
+        public PhoneValidatorTests()
+        {
+            _phoneValidator = new PhoneValidator();
+        }
+
+        [TestMethod]
 		public void ValidatePhoneNumber_ValidNumber_ReturnsTrue()
 		{
 			//Arrange
 			string number = "+37061111111";
 
 			//Act
-			var result = PhoneValidator.CheckNumber(number);
+			var result = _phoneValidator.CheckNumber(number);
 
 			//Assert
 			Assert.AreEqual(true, result);
@@ -25,7 +33,7 @@ namespace PSPLibrary.Tests
 			string number = "+3706111@111";
 
 			//Act
-			var result = PhoneValidator.CheckNumber(number);
+			var result = _phoneValidator.CheckNumber(number);
 
 			//Assert
 			Assert.AreEqual(false, result);
@@ -38,7 +46,7 @@ namespace PSPLibrary.Tests
 			string number = "+37061111";
 
 			//Act
-			var result = PhoneValidator.CheckNumber(number);
+			var result = _phoneValidator.CheckNumber(number);
 
 			//Assert
 			Assert.AreEqual(false, result);
@@ -51,7 +59,7 @@ namespace PSPLibrary.Tests
 			string number = "861234567";
 
 			//Act
-			var result = PhoneValidator.CheckNumber(number);
+			var result = _phoneValidator.CheckNumber(number);
 
 			//Assert
 			Assert.AreEqual(true, result);
@@ -68,8 +76,8 @@ namespace PSPLibrary.Tests
 			// and only after that add new format and test phone number?
 			// Or just validate the addition of the new format?
 			
-			PhoneValidator.AddNumberFormat(12, "+44");
-			var result = PhoneValidator.CheckNumber(number);
+			_phoneValidator.AddNumberFormat(12, "+44");
+			var result = _phoneValidator.CheckNumber(number);
 
 			//Assert
 			Assert.AreEqual(true, result);
