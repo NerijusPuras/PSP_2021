@@ -120,11 +120,9 @@ namespace Biblioteka
                 if(email.Length > 0)
                 {
                     return email[fromPosition..];
-                    //return email.Length - fromPosition;
                 }
             }
             return email[fromPosition..toPosition];
-            //return toPosition - fromPosition;
         }
 
         private bool StringArrayHasValue(string email, List<string> array)

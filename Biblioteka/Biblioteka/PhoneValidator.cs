@@ -20,7 +20,12 @@ namespace Biblioteka
         }
         public string ChangeNumberPrefix(string phoneNumber)
         {
-            return "+37061234567";
+            if (phoneNumber.StartsWith("8"))
+            {
+                return "+370" + phoneNumber[1..];
+            }
+
+            return phoneNumber;
         }
         public ValidationRule AddValidationRule(int length, string prefix)
         {
