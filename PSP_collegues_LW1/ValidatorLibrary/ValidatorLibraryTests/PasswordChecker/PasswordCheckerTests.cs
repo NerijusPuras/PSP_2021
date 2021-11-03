@@ -4,10 +4,10 @@ namespace ValidatorLibraryTests.PasswordChecker
 {
     public class PasswordCheckerTests
     {
-        private PasswordChecker _passwordChecker;
+        private readonly ValidatorLibrary.PasswordChecker _passwordChecker;
         public PasswordCheckerTests()
         {
-            _passwordChecker = new PasswordChecker();
+            _passwordChecker = new ValidatorLibrary.PasswordChecker();
         }
 
         [Fact]
@@ -21,9 +21,9 @@ namespace ValidatorLibraryTests.PasswordChecker
         [Fact]
         public void PasswordChecker_ReturnsFalse_WhenTooShort()
         {
-            var password = AppendPassword("@T",3);
+            var password = AppendPassword("@T", 3);
 
-            Assert.True(_passwordChecker.Validate(password));
+            Assert.False(_passwordChecker.Validate(password));
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace ValidatorLibraryTests.PasswordChecker
         {
             var password = AppendPassword("TT", 2);
 
-            Assert.True(_passwordChecker.Validate(password));
+            Assert.False(_passwordChecker.Validate(password));
         }
 
         [Fact]
@@ -39,18 +39,18 @@ namespace ValidatorLibraryTests.PasswordChecker
         {
             var password = AppendPassword("@@", 2);
 
-            Assert.True(_passwordChecker.Validate(password));
+            Assert.False(_passwordChecker.Validate(password));
         }
 
         [Fact]
         public void PasswordChecker_ReturnsFalse_WhenEmpty()
         {
-            Assert.True(_passwordChecker.Validate(""));
+            Assert.False(_passwordChecker.Validate(""));
         }
 
         private string AppendPassword(string password, int lengthToSubtract)
         {
-            return password + new string('s', (_passwordChecker._passwordLength - lengthToSubtract));
+            return password + new string('s', (_passwordChecker.PasswordLength - lengthToSubtract));
         }
     }
 }
