@@ -73,17 +73,15 @@ namespace Biblioteka
         }
         private bool PhoneNumberLengthIsCorrect(string phoneNumber)
         {
-            int length = -1;
             foreach (var prefix in ValuesForValidations.PhoneNumberPrefixs)
             {
-                if (phoneNumber.Equals(prefix.prefix))
+                if (phoneNumber.StartsWith(prefix.prefix))
                 {
-                    length = prefix.length;
+                    if (phoneNumber.Length == prefix.length)
+                    {
+                        return true;
+                    }
                 }
-            }
-            if(length == phoneNumber.Length)
-            {
-                return true;
             }
             return false;
         }
