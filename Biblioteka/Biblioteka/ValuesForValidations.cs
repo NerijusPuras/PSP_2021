@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Biblioteka
 {
-    public class ValuesForValidations
+    public static class ValuesForValidations
     {
         private static List<char> forbiddenSymbols = new List<char>();
         private static List<string> validDomainNames = new List<string>();
@@ -13,7 +13,7 @@ namespace Biblioteka
         private static List<ValidationRule> phoneNumberPrefixs = new List<ValidationRule>();
         private static List<char> specialSymbolsForPhoneNumbers = new List<char>();
 
-        public ValuesForValidations()
+        static ValuesForValidations()
         {
             forbiddenSymbols.Add(';');
             forbiddenSymbols.Add('%');
