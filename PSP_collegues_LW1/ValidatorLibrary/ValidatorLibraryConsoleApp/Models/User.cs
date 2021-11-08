@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ValidatorLibraryConsoleApp
 {
-    class User
+    public class User
     {
         public string UserId { get; set; }
         public string Name { get; set; }

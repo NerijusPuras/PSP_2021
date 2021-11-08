@@ -11,13 +11,19 @@ namespace ValidatorLibraryConsoleApp
 {
     public class ConsoleIO
     {
-        private List<User> users = new List<User>();
+        public List<User> users;
         private PhoneValidator phoneValidator = new PhoneValidator();
         private EmailValidator emailValidator = new EmailValidator();
         private PasswordChecker passwordChecker = new PasswordChecker();
 
+        public ConsoleIO(List<User> Users)
+        {
+            users = Users;
+            ReadFile();
+        }
         public ConsoleIO()
         {
+            users = new List<User>();
             ReadFile();
         }
 
@@ -32,24 +38,34 @@ namespace ValidatorLibraryConsoleApp
             Console.WriteLine("Write 'exit' to terminate the session");
             var input = Console.ReadLine();
 
+            CallMethodsByInitialInput(input);
+        }
+
+        public void CallMethodsByInitialInput(string input)
+        {
             try
             {
                 if (input.ToLower().Trim().Equals("get all"))
                 {
                     GetAllUsers(users);
-                } else if (input.ToLower().StartsWith("get"))
+                }
+                else if (input.ToLower().StartsWith("get"))
                 {
-                    GetUser(input);
-                } else if (input.ToLower().StartsWith("delete"))
+                    PrintUser(GetUser(input));
+                }
+                else if (input.ToLower().StartsWith("delete"))
                 {
                     DeleteUser(input);
-                } else if (input.ToLower().StartsWith("edit"))
+                }
+                else if (input.ToLower().StartsWith("edit"))
                 {
                     EditUser(input);
-                } else if (input.ToLower().Trim().Equals("add user"))
+                }
+                else if (input.ToLower().Trim().Equals("add user"))
                 {
                     AddUser();
-                } else if (input.ToLower().Equals("exit"))
+                }
+                else if (input.ToLower().Equals("exit"))
                 {
                     Console.WriteLine("Terminating");
                     return;
@@ -61,11 +77,11 @@ namespace ValidatorLibraryConsoleApp
                 }
 
                 ConsoleMenu();
-            } catch
+            }
+            catch
             {
                 Console.WriteLine("Something went wrong, try again");
             }
-            
         }
 
         private void GetAllUsers(List<User> users)
@@ -79,19 +95,19 @@ namespace ValidatorLibraryConsoleApp
             PrintUsers(users);
         }
 
-        private void GetUser(string input)
+        public User GetUser(string input)
         {
             var user = GetUserFromFile(input);
             if (user == null)
             {
                 Console.WriteLine("Invalid userID");
-                return;
+                return null;
             }
 
-            PrintUser(user);
+            return user;
         }
 
-        private void DeleteUser(string input)
+        public void DeleteUser(string input)
         {
             var user = GetUserFromFile(input);
             if(user == null)
@@ -105,7 +121,7 @@ namespace ValidatorLibraryConsoleApp
             Console.WriteLine("User deleted successfully");
         }
 
-        private void EditUser(string input)
+        public void EditUser(string input)
         {
             var user = GetUserFromFile(input);
 
@@ -195,7 +211,7 @@ namespace ValidatorLibraryConsoleApp
             SaveEditedUser(new User(newUserId, newName, newSurname, newPhoneNumber, newEmail, newAdress, newPassword), user.UserId);
         }
 
-        private void SaveEditedUser(User user, string oldUserId)
+        public void SaveEditedUser(User user, string oldUserId)
         {
             DeleteLine(oldUserId);
             AddLine(user);
@@ -385,25 +401,6 @@ namespace ValidatorLibraryConsoleApp
             return user;
         }
 
-        private List<User> GetUsersFromFile(string input)
-        {
-            var userId = GetSecondWord(input);
-            if (userId == null)
-            {
-                Console.WriteLine("User id was not provided\n");
-                return null;
-            }
-
-            var user = users.Where(u => u.UserId == userId).ToList();
-            if (user == null)
-            {
-                Console.WriteLine($"No user with id = ${userId} was found");
-                return null;
-            }
-
-            return user;
-        }
-
         private void DeleteLine(string userId)
         {
             var path = @"data.txt";
@@ -427,7 +424,7 @@ namespace ValidatorLibraryConsoleApp
             users.RemoveAt(users.FindIndex(u => u.UserId == userId));
         }
 
-        private void AddLine(User user)
+        public void AddLine(User user)
         {
             var path = @"data.txt";
             var textToWrite = $"{user.UserId},{user.Name},{user.Surname},{user.PhoneNumber},{user.Email},{user.Adress},{user.Password}";
